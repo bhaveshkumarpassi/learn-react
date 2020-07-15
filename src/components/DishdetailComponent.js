@@ -23,21 +23,21 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody,
         }
 
         renderComments(commentsArray){
+
+            const commList = commentsArray.map((comm) => {
+                return (
+                    <div key={comm.id}>
+                        <li>{comm.comment}</li><br/>
+                        <li>{comm.author} , {comm.date}</li><br/>
+                    </div>
+                );
+            });
                 return(
                         <div className="col-12 col-md-5 m-1">
-                        <h4>Commnets</h4>
-                        <ul className="list-unstyled">
-                        <li>{commentsArray[0].comment}</li><br/>
-                        <li>{commentsArray[0].author} , {commentsArray[0].date}</li><br/>
-                        <li>{commentsArray[1].comment}</li><br/>
-                        <li>{commentsArray[1].author} , {commentsArray[1].date}</li><br/>
-                        <li>{commentsArray[2].comment}</li><br/>
-                        <li>{commentsArray[2].author} , {commentsArray[2].date}</li><br/>
-                        <li>{commentsArray[3].comment}</li><br/>
-                        <li>{commentsArray[3].author} , {commentsArray[3].date}</li><br/>
-                        <li>{commentsArray[4].comment}</li><br/>
-                        <li>{commentsArray[4].author} , {commentsArray[4].date}</li><br/>
-                        </ul>
+                            <h4>Commnets</h4>
+                            <ul className="list-unstyled">
+                                {commList}
+                            </ul>
                         </div>
                 );
         }
