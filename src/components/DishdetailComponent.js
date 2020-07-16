@@ -1,17 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { Card, CardImg, CardText, CardBody,
     CardTitle } from 'reactstrap';
 
-    class DishDetail extends Component{
-        constructor(props){
-            super(props);
-            this.state = {};
-        }
-
-        renderDish(dish){
+        function RenderDish(dish){
                 return(
                 <div className="col-12 col-md-5 m-1">
-                    <Card>
+                    <Card key={dish.id}>
                         <CardImg top src={dish.image} alt={dish.name} />
                         <CardBody>
                             <CardTitle>{dish.name}</CardTitle>
@@ -22,13 +16,13 @@ import { Card, CardImg, CardText, CardBody,
                 );
         }
 
-        renderComments(commentsArray){
+        function RenderComments(commentsArray){
 
             const commList = commentsArray.map((comm) => {
                 return (
                     <div key={comm.id}>
                         <li>{comm.comment}</li><br/>
-                        <li>{comm.author} , {comm.date}</li><br/>
+                        <li>{comm.author} , {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comm.date)))}</li><br/>
                     </div>
                 );
             });
@@ -42,13 +36,15 @@ import { Card, CardImg, CardText, CardBody,
                 );
         }
 
-        render(){
+        const DishDetail = (props) => {
 
-            if(this.props.selectedDish != null){
+            if(props.dish != null){
                 return(
-                    <div className="row">
-                        {this.renderDish(this.props.selectedDish)},
-                        {this.renderComments(this.props.selectedDish.comments)}
+                    <div className="container">
+                        <div className="row">
+                            {RenderDish(props.dish)},
+                            {RenderComments(props.dish.comments)}
+                        </div>
                     </div>
                 );
             }else{
@@ -57,6 +53,5 @@ import { Card, CardImg, CardText, CardBody,
                 );
             }
         }
-    }
 
 export default DishDetail;
