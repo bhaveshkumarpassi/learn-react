@@ -28,8 +28,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
 
             handleSubmit(values) {
                 this.toggleModal();
-                console.log('Current State is: ' + JSON.stringify(values));
-                alert('Current State is: ' + JSON.stringify(values));
+                this.props.addComment(this.props.dishId,values.rating,values.author,values.comment);
             }
 
             render() {
@@ -89,7 +88,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
             }
         }
 
-        function RenderDish(dish){
+        function RenderDish({dish}){
                 return(
                 <div className="col-12 col-md-5 m-1">
                     <Card key={dish.id}>
@@ -103,7 +102,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                 );
         }
 
-        function RenderComments(commentsArray){
+        function RenderComments({commentsArray, addComment, dishId}){
 
             const commList = commentsArray.map((comm) => {
                 return (
@@ -116,10 +115,10 @@ const minLength = (len) => (val) => val && (val.length >= len);
                 return(
                         <div className="col-12 col-md-5 m-1">
                             <h4>Commnets</h4>
-                            <ul className="list-unstyled">
+                            <ul className="list-unstyled" >
                                 {commList}
                             </ul>
-                            <CommentForm />
+                            <CommentForm dishId={dishId} addComment={addComment} />
                         </div>
                 );
         }
@@ -141,8 +140,9 @@ const minLength = (len) => (val) => val && (val.length >= len);
                             </div>                
                         </div>
                         <div className="row">
-                            {RenderDish(props.dish)},
-                            {RenderComments(props.comments)}
+                            <RenderDish dish={props.dish} />
+                            <RenderComments commentsArray={props.comments} 
+                            addComment={props.addComment} dishId={props.dish.id} />
                         </div>
                     </div>
                 );
