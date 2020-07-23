@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Breadcrumb, BreadcrumbItem, Label, Col,
          Button,Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Form, Control, Errors, actions } from 'react-redux-form';
+import { Form, Control, Errors } from 'react-redux-form';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
