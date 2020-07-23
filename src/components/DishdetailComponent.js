@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import {LocalForm, Control, Errors} from 'react-redux-form';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
+
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -93,32 +95,51 @@ const minLength = (len) => (val) => val && (val.length >= len);
         function RenderDish({dish}){
                 return(
                 <div className="col-12 col-md-5 m-1">
-                    <Card key={dish.id}>
-                        <CardImg top src={ baseUrl + dish.image} alt={dish.name} />
-                        <CardBody>
-                            <CardTitle>{dish.name}</CardTitle>
-                            <CardText>{dish.description}</CardText>
-                        </CardBody>
-                    </Card>
+                    <FadeTransform
+                                    in
+                                    transformProps={{
+                                    exitTransform: 'scale(0.5) translateY(-50%)'
+                    }}>
+                        <Card key={dish.id}>
+                            <CardImg top src={ baseUrl + dish.image} alt={dish.name} />
+                            <CardBody>
+                                <CardTitle>{dish.name}</CardTitle>
+                                <CardText>{dish.description}</CardText>
+                            </CardBody>
+                        </Card>
+                    </FadeTransform>
                 </div>
                 );
         }
 
         function RenderComments({commentsArray, postComment, dishId}){
 
-            const commList = commentsArray.map((comm) => {
+            /*const commList = commentsArray.map((comm) => {
                 return (
                     <div key={comm.id}>
-                        <li>{comm.comment}</li><br/>
-                        <li>{comm.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comm.date)))}</li><br/>
+                        <Fade in>
+                            <li>{comm.comment}</li><br/>
+                            <li>{comm.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comm.date)))}</li><br/>
+                        </Fade>
                     </div>
                 );
-            });
+            });*/
                 return(
                         <div className="col-12 col-md-5 m-1">
                             <h4>Commnets</h4>
                             <ul className="list-unstyled" >
-                                {commList}
+                                <Stagger in>
+                                {commentsArray.map((comm) => {
+                                    return (
+                                        <Fade in>
+                                            <li key={comm.id}>
+                                            <p>{comm.comment}</p>
+                                            <p>{comm.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comm.date)))}</p><br />
+                                            </li>
+                                        </Fade>
+                                        );
+                                    })}
+                                </Stagger>
                             </ul>
                             <CommentForm dishId={dishId} postComment={postComment} />
                         </div>
