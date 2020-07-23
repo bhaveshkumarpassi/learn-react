@@ -30,7 +30,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
 
             handleSubmit(values) {
                 this.toggleModal();
-                this.props.addComment(this.props.dishId,values.rating,values.author,values.comment);
+                this.props.postComment(this.props.dishId,values.rating,values.author,values.comment);
             }
 
             render() {
@@ -104,13 +104,13 @@ const minLength = (len) => (val) => val && (val.length >= len);
                 );
         }
 
-        function RenderComments({commentsArray, addComment, dishId}){
+        function RenderComments({commentsArray, postComment, dishId}){
 
             const commList = commentsArray.map((comm) => {
                 return (
                     <div key={comm.id}>
                         <li>{comm.comment}</li><br/>
-                        <li>{comm.author} , {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comm.date)))}</li><br/>
+                        <li>{comm.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comm.date)))}</li><br/>
                     </div>
                 );
             });
@@ -120,7 +120,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                             <ul className="list-unstyled" >
                                 {commList}
                             </ul>
-                            <CommentForm dishId={dishId} addComment={addComment} />
+                            <CommentForm dishId={dishId} postComment={postComment} />
                         </div>
                 );
         }
@@ -162,7 +162,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                         <div className="row">
                             <RenderDish dish={props.dish} />
                             <RenderComments commentsArray={props.comments} 
-                            addComment={props.addComment} dishId={props.dish.id} />
+                            postComment={props.postComment} dishId={props.dish.id} />
                         </div>
                     </div>
                 );
